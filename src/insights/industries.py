@@ -18,7 +18,7 @@ def get_unique_industries(path: str) -> List[str]:
         List of unique industries
     """
     data = read(path)
-    return set({job["industry"] for job in data if job["industry"] != ""})
+    return set({elem["industry"] for elem in data if elem["industry"] != ""})
     # raise NotImplementedError
 
 
