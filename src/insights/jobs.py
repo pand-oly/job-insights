@@ -45,8 +45,7 @@ def get_unique_job_types(path: str) -> List[str]:
         List of unique job types
     """
     data = read(path)
-    jobs_types = set({job["job_type"] for job in data})
-    return jobs_types
+    return set({job["job_type"] for job in data})
 
     # raise NotImplementedError
 
