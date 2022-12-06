@@ -37,4 +37,5 @@ def filter_by_industry(jobs: List[Dict], industry: str) -> List[Dict]:
     list
         List of jobs with provided industry
     """
-    raise NotImplementedError
+    return [elem for elem in jobs if elem["industry"] == industry]
+    # raise NotImplementedError
