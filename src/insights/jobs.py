@@ -19,12 +19,8 @@ def read(path: str) -> List[Dict]:
     """
 
     with open(path) as file:
-        data = csv.reader(file, delimiter=",", quotechar='"')
-        header, *jobs = data
-        result = list()
-        for job in jobs:
-            test = {header[index]: info for index, info in enumerate(job)}
-            result.append(test)
+        data = csv.DictReader(file, delimiter=",", quotechar='"')
+        result = [job for job in data]
     return result
     # raise NotImplementedError
 
