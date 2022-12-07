@@ -108,6 +108,19 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
     # raise NotImplementedError
 
 
+def catch(job: Dict, salary: Union[str, int]):
+    """
+https://stackoverflow.com/questions/1528237/how-to-handle-exceptions-in-a-list-comprehensions
+    expesifica for this application
+    but I looked for the idea of this solution in the stack overflow
+    of how to do a list comprehension with try except
+    """
+    try:
+        return matches_salary_range(job, salary)
+    except ValueError:
+        pass
+
+
 def filter_by_salary_range(
     jobs: List[dict],
     salary: Union[str, int]
@@ -126,12 +139,14 @@ def filter_by_salary_range(
     list
         Jobs whose salary range contains `salary`
     """
-    result = list()
-    for job in jobs:
-        try:
-            if (matches_salary_range(job, salary)):
-                result.append(job)
-        except ValueError:
-            pass
+    result = [job for job in jobs if catch(job, salary)]
     return result
+    #    * result = list()
+    #    * for job in jobs:
+    #    *     try:
+    #    *         if (matches_salary_range(job, salary)):
+    #    *             result.append(job)
+    #    *     except ValueError:
+    #    *         pass
+    #    * return result
     # raise NotImplementedError
