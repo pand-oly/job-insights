@@ -52,6 +52,31 @@ def get_min_salary(path: str) -> int:
     # raise NotImplementedError
 
 
+def check_min_and_max_salay_in_job(job: Dict) -> bool:
+    """ Check if min_salary and max_salary is int or srt and is digit
+      and check if min_salary < max_salary """
+    if (
+        "min_salary" not in job or "max_salary" not in job
+        or not isinstance(job["min_salary"], (str, int))
+        or not isinstance(job["max_salary"], (str, int))
+        or int(job["min_salary"]) > int(job["max_salary"])
+    ):
+        raise ValueError
+
+    return True
+
+
+def check_salay_is_valid(salary: Union[int, str]) -> bool:
+    """Check if salary is int or srt and str is digit"""
+    if (
+        not isinstance(salary, (str, int))
+        or isinstance(salary, str) and not salary.isdigit()
+    ):
+        raise ValueError
+
+    return True
+
+
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
     """Checks if a given salary is in the salary range of a given job
 
@@ -75,19 +100,8 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
         If `job["min_salary"]` is greather than `job["max_salary"]`
         If `salary` isn't a valid integer
     """
-    if (
-        "min_salary" not in job or "max_salary" not in job
-        or not isinstance(job["min_salary"], (str, int))
-        or not isinstance(job["max_salary"], (str, int))
-        or int(job["min_salary"]) > int(job["max_salary"])
-    ):
-        raise ValueError
-
-    if (
-        not isinstance(salary, (str, int))
-        or isinstance(salary, str) and not salary.isdigit()
-    ):
-        raise ValueError
+    check_min_and_max_salay_in_job(job)
+    check_salay_is_valid(salary)
 
     result = int(job["min_salary"]) <= int(salary) <= int(job["max_salary"])
     return result
@@ -112,12 +126,12 @@ def filter_by_salary_range(
     list
         Jobs whose salary range contains `salary`
     """
+    result = list()
     for job in jobs:
-        if (
-            "min_salary" not in job or "max_salary" not in job
-            or not isinstance(job["min_salary"], (str, int))
-            or not isinstance(job["max_salary"], (str, int))
-            and int(job["min_salary"]) > int(job["max_salary"])
-        ):
-            raise ValueError
-    raise NotImplementedError
+        try:
+            if (matches_salary_range(job, salary)):
+                result.append(job)
+        except ValueError:
+            pass
+    return result
+    # raise NotImplementedError
